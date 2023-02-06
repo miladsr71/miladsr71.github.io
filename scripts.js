@@ -1,6 +1,7 @@
 
 const canvas = document.getElementById('game');
 const context = canvas.getContext('2d');
+context.font="60px monospace"; //changed the font size and font type
 const grid = 15;
 const paddleHeight = grid * 5; // 80
 const maxPaddleY = canvas.height - grid - paddleHeight;
@@ -42,6 +43,10 @@ const ball = {
   dx: ballSpeed,
   dy: -ballSpeed
 };
+
+// intialize players score
+let leftPlayerScore=0;
+let rightPlayerScore=0;
 
 // check for collision between two objects using axis-aligned bounding box (AABB)
 // @see https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
@@ -102,8 +107,8 @@ function loop() {
     // give some time for the player to recover before launching the ball again
     setTimeout(() => {
       ball.resetting = false;
-      ball.x = canvas.width / 2;
-      ball.y = canvas.height / 2;
+      // ball.x = canvas.width / 2;
+      // ball.y = canvas.height / 2;
     }, 400);
   }
 
@@ -130,7 +135,24 @@ function loop() {
   context.fillStyle = 'lightgrey';
   context.fillRect(0, 0, canvas.width, grid);
   context.fillRect(0, canvas.height - grid, canvas.width, canvas.height);
+  
+  //counting score for right player 
+  if (ball.x < 0 ) { 
+    rightPlayerScore++;
+    ball.x = canvas.width / 2;
+    ball.y =  canvas.height/2;
 
+  }
+//counting score for left player
+  if (ball.x > canvas.width  ) {
+    leftPlayerScore++;
+    ball.x = canvas.width / 2;
+    ball.y = canvas.height/2;
+
+  }
+  
+  // showing scores on the screen
+context.fillText(leftPlayerScore + "    " + rightPlayerScore,270,80);
   // draw dotted line down the middle
   for (let i = grid; i < canvas.height - grid; i += grid * 2) {
     context.fillRect(canvas.width / 2 - grid / 2, i, grid, grid);
