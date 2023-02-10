@@ -1,4 +1,3 @@
-
 const canvas = document.getElementById('game');
 const context = canvas.getContext('2d');
 context.font="60px monospace"; //changed the font size and font type
@@ -56,11 +55,27 @@ function collides(obj1, obj2) {
          obj1.y < obj2.y + obj2.height &&
          obj1.y + obj1.height > obj2.y;
 }
+function reset() {
+  leftPlayerScore = 0;
+  rightPlayerScore = 0;
+}
+
 
 // game loop
 function loop() {
   requestAnimationFrame(loop);
   context.clearRect(0,0,canvas.width,canvas.height);
+  if (ball.dx < 100) { //checks where the ball is going and moves accordingly
+    if (ball.y < (leftPaddle.y + 50)){
+      leftPaddle.dy = -paddleSpeed;
+    } 
+    else {
+      leftPaddle.dy = paddleSpeed;
+    }
+  }
+  else {
+    leftPaddle.dy = 0;
+  }
 
   // move paddles by their velocity
   leftPaddle.y += leftPaddle.dy;
@@ -151,11 +166,29 @@ function loop() {
 
   }
   
+function gameOverPrompt() {
+  let text = "Game over!\nEither Cancel or Ok to the reset game button to replay.";
+  if (confirm(text) == true) {
+    reset();
+  } else {
+    context.fillText("GAME OVER",250,300);
+  }
+}
   // showing scores on the screen
 context.fillText(leftPlayerScore + "    " + rightPlayerScore,270,80);
   // draw dotted line down the middle
   for (let i = grid; i < canvas.height - grid; i += grid * 2) {
     context.fillRect(canvas.width / 2 - grid / 2, i, grid, grid);
+  }
+  if(leftPlayerScore > 7) {
+    gameOverPrompt();
+    //alert('Game Over');
+    // context.fillText("GAME OVER",250,150);
+  }
+  if(rightPlayerScore > 7) {
+    // alert('Game Over');
+    gameOverPrompt();
+    // context.fillText("GAME OVER",250,150);
   }
 }
 
@@ -172,13 +205,13 @@ document.addEventListener('keydown', function(e) {
   }
 
   // w key
-  if (e.which === 87) {
-    leftPaddle.dy = -paddleSpeed;
-  }
-  // a key
-  else if (e.which === 83) {
-    leftPaddle.dy = paddleSpeed;
-  }
+  // if (e.which === 87) {
+  //   leftPaddle.dy = -paddleSpeed;
+  // }
+  // // a key
+  // else if (e.which === 83) {
+  //   leftPaddle.dy = paddleSpeed;
+  // }
 });
 
 // listen to keyboard events to stop the paddle if key is released
@@ -187,9 +220,9 @@ document.addEventListener('keyup', function(e) {
     rightPaddle.dy = 0;
   }
 
-  if (e.which === 83 || e.which === 87) {
-    leftPaddle.dy = 0;
-  }
+  // if (e.which === 83 || e.which === 87) {
+  //   leftPaddle.dy = 0;
+  // }
 });
 
 // start the game
