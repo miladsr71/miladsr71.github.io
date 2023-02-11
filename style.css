@@ -16,8 +16,9 @@
     width: 20%;
     height: 8%;
     color: black;
-    position: fixed;
-    margin-top: 70%;
+    /* position: fixed;
+    margin-top: 70%; */
+    flex-direction: column; /*addded*/
     text-align: center;
     text-decoration: none;
     display: inline-block;
