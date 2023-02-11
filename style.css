@@ -8,6 +8,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex-direction: column; /*addded*/
   }
   button.reset {
     background-color: rgb(128, 161, 48); /* Green */
@@ -16,8 +17,9 @@
     width: 20%;
     height: 8%;
     color: black;
-    position: fixed;
-    margin-top: 70%;
+    /* position: fixed;
+    margin-top: 70%; */
+    /* flex-direction: column; addded */
     text-align: center;
     text-decoration: none;
     display: inline-block;
